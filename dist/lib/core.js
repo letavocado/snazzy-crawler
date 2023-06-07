@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 import inquirer from 'inquirer';
-import { DEPTH_LIMIT, exportToJson, getOnlyHostURLs, getUnique, normalizeURL } from '../lib/utils.js';
+import { DEPTH_LIMIT, exportToJson, getOnlyHostURLs, getRandomEmoji, getUnique, normalizeURL } from '../lib/utils.js';
 import chalk from 'chalk';
 class Crawler {
     constructor(options) {
@@ -23,10 +23,9 @@ class Crawler {
             await this.onPageClosed();
         });
         await this.crawlPage(this.baseURL, this.baseURL);
-        console.log(chalk.magenta('\nCrawling end'));
-        console.log(chalk.magenta(`Total images: ${this.result.length}`));
-        console.log('\n');
         console.log(this.result);
+        console.log(chalk.magenta('\nYASSSS, Crawling Done!. 🫡'));
+        console.log(chalk.magenta(`"Wow! We found ${this.result.length} awesome images! 🎉"`));
         await this._close();
     }
     async onPageClosed() {
@@ -35,7 +34,7 @@ class Crawler {
             {
                 name: 'exportToJSON',
                 type: 'confirm',
-                message: 'Export to JSON file?',
+                message: 'Export to JSON file? 💾',
                 default: false
             }
         ])
@@ -55,25 +54,45 @@ class Crawler {
         if (baseURLObj.hostname !== currentURLObj.hostname) {
             return;
         }
-        console.log(chalk.green(`Crawling ${currentURL}`));
+        console.log(chalk.green(`${currentURL}? ${getRandomEmoji()} Let's crawl it!"`));
         await this.page.goto(currentURL);
         const images = await this.findImages(this.page, currentURL, 0);
-        console.log(chalk.cyan(`Images found : ${images.length}`));
+        if (images.length === 0) {
+            console.log(chalk.cyan('No pics, no proof.'));
+        }
+        else {
+            console.log(chalk.cyan(`Boom! Found ${images.length} pics.`));
+        }
         this.result.push(...images);
         const nextURLs = await this.findURLs(this.page);
         this.stack = [...nextURLs];
-        for (let l = 0; l < Math.min(this.depth, DEPTH_LIMIT); l++) {
-            console.log(chalk.magenta(`\nCurrent depth level: ${l}`));
+        const maxDepth = Math.min(this.depth, DEPTH_LIMIT);
+        for (let l = 0; l < maxDepth; l++) {
+            if (l > 4) {
+                console.log(chalk.magenta(`\nWe're diving in deep, we've hit level ${l}!`));
+            }
+            else {
+                console.log(chalk.magenta(`You're at level ${l}`));
+            }
             /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
             for (const _ of nextURLs) {
+                if (this.stack.length === 0)
+                    return;
                 const url = normalizeURL(this.stack.pop());
                 if (!this.crawledUrls.has(url)) {
                     this.crawledUrls.add(url);
                     try {
-                        console.log(chalk.gray(`Fetching: ${url}`));
+                        console.log(chalk
+                            .hex('fff1f3')
+                            .underline(`\nGrabbing every link on ${url}! 🌐`));
                         await this.page.goto(url);
                         const images = await this.findImages(this.page, url, l);
-                        console.log(chalk.cyan(`Images found : ${images.length}`));
+                        if (images.length === 0) {
+                            console.log(chalk.cyan('No pics, no proof.'));
+                        }
+                        else {
+                            console.log(chalk.cyan(`Boom! Found ${images.length} ${images.length === 1 ? 'pic' : 'pics'}.`));
+                        }
                         this.result.push(...images);
                     }
                     catch (e) {
@@ -88,6 +107,7 @@ class Crawler {
         }
     }
     async findImages(page, sourceUrl, depth) {
+        console.log(chalk.italic("Hmm... Let's find some pics on this page! 🧐📷"));
         const imagesArr = getUnique(await page.evaluate(() => Array.from(document.images, (e) => e.src)));
         return imagesArr.map((imageUrl) => ({
             imageUrl,

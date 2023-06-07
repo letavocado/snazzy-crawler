@@ -54,3 +54,23 @@ export function exportToJson(jsonData, baseURL) {
         console.log(error);
     }
 }
+export function getRandomEmoji() {
+    const emojies = [
+        '😳',
+        '💩',
+        '👀',
+        '👽',
+        '😮',
+        '🤓',
+        '🤠',
+        '🤢',
+        '🥴',
+        '🤮',
+        '😮',
+        '😒',
+        '😏',
+        '🤨',
+        '😧'
+    ];
+    return emojies[Math.floor(Math.random() * emojies.length)];
+}

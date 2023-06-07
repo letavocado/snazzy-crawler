@@ -56,3 +56,24 @@ export function exportToJson (jsonData: CrawlerResult, baseURL: string): void {
     console.log(error)
   }
 }
+
+export function getRandomEmoji (): string {
+  const emojies = [
+    '😳',
+    '💩',
+    '👀',
+    '👽',
+    '😮',
+    '🤓',
+    '🤠',
+    '🤢',
+    '🥴',
+    '🤮',
+    '😮',
+    '😒',
+    '😏',
+    '🤨',
+    '😧'
+  ]
+  return emojies[Math.floor(Math.random() * emojies.length)]
+}
