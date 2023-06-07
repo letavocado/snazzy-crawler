@@ -112,7 +112,7 @@ class Crawler {
     this.stack = [...nextURLs]
 
     for (let l = 0; l < Math.min(this.depth, DEPTH_LIMIT); l++) {
-      console.log(chalk.magenta(`Current depth level: ${l}`))
+      console.log(chalk.magenta(`\nCurrent depth level: ${l}`))
 
       /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
       for (const _ of nextURLs) {

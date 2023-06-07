@@ -8,7 +8,7 @@ const { version } = require('../../package.json');
 const program = new Command();
 program
     .version(version)
-    .usage('[options] <url>\n\n  A snazzy light Node.js image crawler laced with TypeScript goodness! 🕵️🦾')
+    .usage('<url> [options] \n\n  A snazzy light Node.js image crawler laced with TypeScript goodness! 🕵️🦾')
     .option('-l, --depth <number>', 'depth level')
     .parse(process.argv);
 const options = program.opts();
