@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import { writeFileSync } from 'fs'
-import { type CrawlerResult } from './core.ts'
+import { type CrawlerResult } from './core.js'
 
 export const DEPTH_LIMIT = 100
 

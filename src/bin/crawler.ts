@@ -3,16 +3,16 @@
 import { Command } from 'commander'
 import { createRequire } from 'node:module'
 import Crawler from '../lib/core.js'
-import { normalizeURL } from '../lib/utils.ts'
+import { normalizeURL } from '../lib/utils.js'
 
 const require = createRequire(import.meta.url)
-const { version } = require('../package.json')
+const { version } = require('../../package.json')
 const program: Command = new Command()
 
 program
   .version(version)
   .usage(
-    '[options] <url>\n\n  A snazzy light Node.js image crawler laced with TypeScript goodness! 🕵️🦾'
+    '<url> [options] \n\n  A snazzy light Node.js image crawler laced with TypeScript goodness! 🕵️🦾'
   )
   .option('-l, --depth <number>', 'depth level')
   .parse(process.argv)

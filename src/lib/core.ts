@@ -58,6 +58,7 @@ class Crawler {
   }
 
   public async run (): Promise<void> {
+    /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
     this.page.once('close', async () => {
       await this.onPageClosed()
     })
@@ -112,6 +113,8 @@ class Crawler {
 
     for (let l = 0; l < Math.min(this.depth, DEPTH_LIMIT); l++) {
       console.log(chalk.magenta(`Current depth level: ${l}`))
+
+      /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
       for (const _ of nextURLs) {
         const url: string = normalizeURL(this.stack.pop() as string)
         if (!this.crawledUrls.has(url)) {
