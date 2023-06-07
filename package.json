@@ -1,6 +1,6 @@
 {
   "name": "snazzy-crawler",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "A snazzy light Node.js image crawler laced with TypeScript goodness! 🕵️🦾",
   "type": "module",
   "license": "ISC",
