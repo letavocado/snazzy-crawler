@@ -21,7 +21,7 @@ Options:
 
 ### Usage example
 
-`npx snazzy-crawler https://nuxt.com -d 0` — Crawling https://nuxt.com homepage images
+`npx snazzy-crawler https://nuxt.com -l 0` — Crawling https://nuxt.com homepage images
 
 ### Test
 
