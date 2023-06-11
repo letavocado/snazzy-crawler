@@ -59,6 +59,7 @@ class Crawler {
   }
 
   public async run (): Promise<void> {
+    const startTime: bigint = process.hrtime.bigint()
     /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
     this.page.once('close', async () => {
       await this.onPageClosed()
@@ -66,8 +67,17 @@ class Crawler {
 
     await this.crawlPage(this.baseURL, this.baseURL)
 
+    const endTime: bigint = process.hrtime.bigint()
+    const completedInSeconds: string = (
+      Number(endTime - startTime) /
+      1_000_000 /
+      1_000
+    ).toFixed(2)
+
     console.log(this.result)
-    console.log(chalk.magenta('\nYASSSS, Crawling Done!. 🫡'))
+    console.log(
+      chalk.magenta(`\nYASSSS, Crawling Done!. 🫡 ${completedInSeconds}s`)
+    )
     console.log(
       chalk.magenta(`"Wow! We found ${this.result.length} awesome images! 🎉"`)
     )
