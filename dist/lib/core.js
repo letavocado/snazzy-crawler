@@ -18,13 +18,18 @@ class Crawler {
         return new Crawler({ baseURL: url, depth, browser, page });
     }
     async run() {
+        const startTime = process.hrtime.bigint();
         /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
         this.page.once('close', async () => {
             await this.onPageClosed();
         });
         await this.crawlPage(this.baseURL, this.baseURL);
+        const endTime = process.hrtime.bigint();
+        const completedInSeconds = (Number(endTime - startTime) /
+            1000000 /
+            1000).toFixed(2);
         console.log(this.result);
-        console.log(chalk.magenta('\nYASSSS, Crawling Done!. 🫡'));
+        console.log(chalk.magenta(`\nYASSSS, Crawling Done!. 🫡 ${completedInSeconds}s`));
         console.log(chalk.magenta(`"Wow! We found ${this.result.length} awesome images! 🎉"`));
         await this._close();
     }
