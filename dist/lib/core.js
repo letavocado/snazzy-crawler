@@ -61,6 +61,7 @@ class Crawler {
         }
         console.log(chalk.green(`${currentURL}? ${getRandomEmoji()} Let's crawl it!"`));
         await this.page.goto(currentURL);
+        await this.autoScroll(this.page);
         const images = await this.findImages(this.page, currentURL, 0);
         if (images.length === 0) {
             console.log(chalk.cyan('No pics, no proof.'));
@@ -110,6 +111,23 @@ class Crawler {
                 }
             }
         }
+    }
+    async autoScroll(page) {
+        await page.evaluate(async () => {
+            await new Promise((resolve) => {
+                let totalHeight = 0;
+                const distance = 250;
+                const timer = setInterval(() => {
+                    const scrollHeight = document.body.scrollHeight;
+                    window.scrollBy(0, distance);
+                    totalHeight += distance;
+                    if (totalHeight >= scrollHeight - window.innerHeight) {
+                        clearInterval(timer);
+                        resolve();
+                    }
+                }, 100);
+            });
+        });
     }
     async findImages(page, sourceUrl, depth) {
         console.log(chalk.italic("Hmm... Let's find some pics on this page! 🧐📷"));
