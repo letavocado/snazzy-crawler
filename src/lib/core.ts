@@ -120,6 +120,7 @@ class Crawler {
     )
 
     await this.page.goto(currentURL)
+    await this.autoScroll(this.page)
     const images = await this.findImages(this.page, currentURL, 0)
 
     if (images.length === 0) {
@@ -180,6 +181,25 @@ class Crawler {
         }
       }
     }
+  }
+
+  private async autoScroll (page: Page): Promise<void> {
+    await page.evaluate(async () => {
+      await new Promise<void>((resolve) => {
+        let totalHeight = 0
+        const distance = 250
+        const timer = setInterval(() => {
+          const scrollHeight = document.body.scrollHeight
+          window.scrollBy(0, distance)
+          totalHeight += distance
+
+          if (totalHeight >= scrollHeight - window.innerHeight) {
+            clearInterval(timer)
+            resolve()
+          }
+        }, 100)
+      })
+    })
   }
 
   private async findImages (
