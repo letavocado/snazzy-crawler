@@ -64,4 +64,4 @@ test("Get images from nuxt.com homepage", async () => {
   const crawler = await Crawler.init(normalizedURL, depth);
   await crawler.run();
   expect(nuxtHomePageImages).toEqual(crawler.result.length);
-});
+}, 20000);
