@@ -1,12 +1,12 @@
 {
   "name": "snazzy-crawler",
-  "version": "1.2.4",
+  "version": "1.2.8",
   "lockfileVersion": 3,
   "requires": true,
   "packages": {
     "": {
       "name": "snazzy-crawler",
-      "version": "1.2.4",
+      "version": "1.2.8",
       "license": "ISC",
       "bin": {
         "snazzy-crawler": "dist/bin/crawler.js"
